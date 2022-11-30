@@ -6,7 +6,7 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-import redis
+# import redis
 from scrapy.exceptions import IgnoreRequest
 
 
@@ -130,8 +130,8 @@ class Save404URLDownloaderMiddleware(object):
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
         return s
 
-    def spider_opened(self, spider):
-        self.client = redis.Redis(host=self.redis_host)
+    # def spider_opened(self, spider):
+        # self.client = redis.Redis(host=self.redis_host)
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
@@ -140,39 +140,35 @@ class Save404URLDownloaderMiddleware(object):
             print("save 404url to redis, url: ", response.url)
         return response
 
-        #if response.status == 110 or response.status == 111:
-
-
-
-
-class DropExistURLDownloaderMiddleware(object):
-    # 丢弃掉已存在redis news集合中的url的request
-
-    def __init__(self, redis_host, redis_port, redis_password, redis_key):
-        self.redis_host = redis_host
-        self.redis_port = redis_port
-        self.redis_password = redis_password
-        self.redis_key = redis_key
-        self.client = None
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        o = cls(
-            redis_host=crawler.settings.get('REDIS_HOST'),
-            redis_port=crawler.settings.get('REDIS_PORT'),
-            redis_password=crawler.settings.get('REDIS_PASSWORD'),
-            redis_key=crawler.settings.get('REDIS_KEY'),
-        )
-        crawler.signals.connect(o.spider_opened, signal=signals.spider_opened)
-        return o
-
-    def spider_opened(self, spider):
-        self.client = redis.Redis(host=self.redis_host)
-
-    def process_request(self, request, spider):
-        if self.client.sismember(self.redis_key, request.url):
-            # print("url已经爬过，该request将被略过。url: "+request.url)
-            raise IgnoreRequest
-        else:
-            request.headers['Referer'] = None
-            return None
+#
+# class DropExistURLDownloaderMiddleware(object):
+#     # 丢弃掉已存在redis news集合中的url的request
+#
+#     def __init__(self, redis_host, redis_port, redis_password, redis_key):
+#         self.redis_host = redis_host
+#         self.redis_port = redis_port
+#         self.redis_password = redis_password
+#         self.redis_key = redis_key
+#         self.client = None
+#
+#     @classmethod
+#     def from_crawler(cls, crawler):
+#         o = cls(
+#             redis_host=crawler.settings.get('REDIS_HOST'),
+#             redis_port=crawler.settings.get('REDIS_PORT'),
+#             redis_password=crawler.settings.get('REDIS_PASSWORD'),
+#             redis_key=crawler.settings.get('REDIS_KEY'),
+#         )
+#         crawler.signals.connect(o.spider_opened, signal=signals.spider_opened)
+#         return o
+#
+#     # def spider_opened(self, spider):
+#         # self.client = redis.Redis(host=self.redis_host)
+#
+#     def process_request(self, request, spider):
+#         if self.client.sismember(self.redis_key, request.url):
+#             # print("url已经爬过，该request将被略过。url: "+request.url)
+#             raise IgnoreRequest
+#         else:
+#             request.headers['Referer'] = None
+#             return None

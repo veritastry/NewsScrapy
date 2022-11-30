@@ -68,7 +68,8 @@ ROBOTSTXT_OBEY = False
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # 'qqnews.pipelines.DatePipeline': 300,
-    'news.pipelines.SavePipeline': 400,
+    # 'news.pipelines.SavePipeline': 400,
+    'news.pipelines.SaveToFilePipeline': 400,
     'news.pipelines.StandardizationPipeline': 300,  # 这个优先级一定要比存储大
 }
 #MONGO_HOST = 'localhost'
@@ -94,9 +95,9 @@ SAVE_URL = 'http://115.159.3.213:8089/v1/api/new/add'
 LOG_LEVEL = 'INFO'
 
 DOWNLOADER_MIDDLEWARES = {
-    'news.middlewares.DropExistURLDownloaderMiddleware': 543,
+    # 'news.middlewares.DropExistURLDownloaderMiddleware': 543,
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 100,
-    'news.middlewares.Save404URLDownloaderMiddleware': 600,
+    # 'news.middlewares.Save404URLDownloaderMiddleware': 600,
     # 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': None
 }
 # Enable and configure the AutoThrottle extension (disabled by default)

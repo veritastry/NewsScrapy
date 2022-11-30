@@ -23,22 +23,22 @@ def save(item, save_url):
             "source": item['source'],
             "actualUrl": item['source_url'],
         }
-    try:
-        response = requests.post(url=save_url, json=data_json, headers=HEADERS)
-    except Exception as e:
-        print("REQUESTS ERROR: "+str(e))
-    else:
-        if response.status_code != 200:
-            print("SAVE ERROR: response code is not equal to 200")
-        elif 'code' in response.json() and response.json()['code'] != 200:
-            print("SAVE ERROR: save code is not equal to 200")
+    # try:
+    #     response = requests.post(url=save_url, json=data_json, headers=HEADERS)
+    # except Exception as e:
+    #     print("REQUESTS ERROR: "+str(e))
+    # else:
+    #     if response.status_code != 200:
+    #         print("SAVE ERROR: response code is not equal to 200")
+    #     elif 'code' in response.json() and response.json()['code'] != 200:
+    #         print("SAVE ERROR: save code is not equal to 200")
 
 
-def get():
-    get_url = 'http://120.24.90.180:8008/v1/api/new/all'
-    get_url = get_url
-    print(requests.get(url=get_url, headers=HEADERS).text)
+# def get():
+    # get_url = 'http://120.24.90.180:8008/v1/api/new/all'
+    # get_url = get_url
+    # print(requests.get(url=get_url, headers=HEADERS).text)
 
 
 # save(TEST_ITEM, 'http://120.24.90.180:8008/v1/api/new/add')
-get()
+# get()
